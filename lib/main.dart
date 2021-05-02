@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'presentation/view/animation_page.dart';
 
 import 'presentation/helpers/retailme_router.dart';
-import 'presentation/view/animation_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,9 +18,14 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     return MaterialApp(
-      title: 'Retailme',
+      title: 'Retailmi',
       theme: ThemeData(
-        hintColor: Color.fromRGBO(255, 255, 255, 0.8)
+        hintColor: Color.fromRGBO(255, 255, 255, 0.8),
+        brightness: Brightness.dark,
+        primaryColor: Color.fromRGBO(18, 168, 237, 1.0),
+        accentColor: Colors.white70,
+        scaffoldBackgroundColor:  Color.fromRGBO(18, 168, 237, 1.0),
+        fontFamily: 'San Francisco',
       ),
       home: AnimationPage(),
       debugShowCheckedModeBanner: false,

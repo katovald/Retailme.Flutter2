@@ -6,11 +6,14 @@ class Sucursal {
   String _rfc;
   String _telefono;
 
+  // ignore: unnecessary_getters_setters
   get numeroEmpleado => _numeroEmpleado;
+  // ignore: unnecessary_getters_setters
   set numeroEmpleado(String value) {
     _numeroEmpleado = value;
   }
 
+  // ignore: unnecessary_getters_setters
   get nombreCompleto => _nombreCompleto;
   set nombreCompleto(String value) {
     _nombreCompleto = value;

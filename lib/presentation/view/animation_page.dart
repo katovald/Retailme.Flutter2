@@ -16,12 +16,8 @@ class AnimationPageView extends ViewState<AnimationPage, AnimationPageController
   Animation<double> _animation;
 
   AnimationPageView() : super(AnimationPageController(DataAuthRepo())) {
-    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn)..addListener(() {
-      setState(() {
-
-      });
-    });
+    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 2));
+    _animation = CurvedAnimation(parent: _animationController, curve: Curves.elasticIn);
   }
 
   @override
@@ -31,11 +27,14 @@ class AnimationPageView extends ViewState<AnimationPage, AnimationPageController
   }
 
   @override
-  Widget get view => Scaffold(key: globalKey, body: body,);
+  Widget get view => Scaffold(
+    key: globalKey,
+    body: body,
+  );
 
   Stack get body => Stack(
     children: <Widget>[
-      background,
+      //background,
       logo,
     ],
   );
@@ -46,24 +45,39 @@ class AnimationPageView extends ViewState<AnimationPage, AnimationPageController
     right: 0.0,
     height: MediaQuery.of(context).size.height,
     child: Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color.fromRGBO(18, 168, 237, 1.0),
+              Color.fromRGBO(18, 56, 237, 1.0),
+              Color.fromRGBO(56, 18, 237, 1.0),
+              Color.fromRGBO(116, 18, 237, 1.0)
+            ]
+        ),
+      ),
     ),
   );
 
-  Positioned get logo => Positioned(
-    top: MediaQuery.of(context).size.height / 2 - 50,
-    left: 0.0,
-    right: 0.0,
-    child: Column(
-      children: <Widget>[
-        FadeTransition(
+  Widget get logo => ControlledWidgetBuilder<AnimationPageController>( builder: (context, controller) {
+    controller.initAnimation(_animationController, _animation);
+    return Positioned(
+      top: MediaQuery.of(context).size.height / 2 - 50,
+      left: 0.0,
+      right: 0.0,
+      child: Column(
+        children: <Widget>[
+          FadeTransition(
             opacity: _animation,
-          child: Image(
-            image: AssetImage(Resources.logo),
-            width: 200,
-          ),
-        )
-      ],
-    ),
+            child: Image(
+              image: AssetImage(Resources.logo),
+              width: 200,
+            ),
+          )
+        ],
+      ),
+    );
+  }
   );
 }

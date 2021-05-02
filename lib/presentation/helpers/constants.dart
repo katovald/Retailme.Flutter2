@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class UIConstants {
   static const TextStyle fieldHintStyle = TextStyle(fontWeight: FontWeight.w300, color: Colors.black);
-  static const String appName = 'Retailme';
+  static const String appName = 'Retailmi';
   static const double progressBarOpacity = 0.6;
   static const Color progressBarColor = Colors.black;
 }
@@ -16,7 +16,7 @@ class Strings {
 }
 
 class Resources {
-  static const String logo = 'assets/img/logo.png';
+  static const String logo = 'assets/img/logo.jpeg';
 }
 
 SnackBar _getGenericSnackbar(String text, bool isError){

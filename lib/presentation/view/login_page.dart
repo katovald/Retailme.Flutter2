@@ -39,59 +39,69 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
   Stack get body => Stack(
     children: <Widget>[
       background,
-      ListView(
-        physics: PageScrollPhysics(),
+      dataCard,
+    ],
+  );
+
+  Widget get dataCard => ListView(
+    physics: PageScrollPhysics(),
+    children: <Widget>[
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height / 8,
-                          bottom: 10.0),
-                      child: Image(
-                        image: AssetImage(Resources.logo),
-                        width: 200.0,
-                      ),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 8,
+                      bottom: 10.0),
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      color: Colors.redAccent,
+                      image: DecorationImage(
+                        image: AssetImage('assets/img/logo.jpeg'),
+                        fit: BoxFit.fill,
+                      )
                     ),
-                    Text(
-                      UIConstants.appName,
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.w300,
-                        letterSpacing: 2.0,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 12),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: emailField,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: passwordField,
-                      ),
-                      SizedBox(height: 40.0),
-                      loginButton,
-                    ],
                   ),
                 ),
+                Text(
+                  UIConstants.appName,
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.w300,
+                    letterSpacing: 2.0,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height / 12),
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: emailField,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: passwordField,
+                  ),
+                  SizedBox(height: 40.0),
+                  loginButton,
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -104,7 +114,18 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
     right: 0.0,
     height: MediaQuery.of(context).size.height,
     child: Container(
-      color: Color.fromRGBO(0, 0, 0, 0.8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color.fromRGBO(18, 168, 237, 1.0),
+              Color.fromRGBO(18, 56, 237, 1.0),
+              Color.fromRGBO(56, 18, 237, 1.0),
+              Color.fromRGBO(116, 18, 237, 1.0)
+            ]
+        ),
+      ),
     ),
   );
 
@@ -115,7 +136,12 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
     width: MediaQuery.of(context).size.width / 3,
       child: TextField(
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          icon: Icon(Icons.account_circle),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white70,
+            )
+          ),
           labelText: "Supervisor",
         ),
       )
@@ -127,7 +153,13 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
       child: TextField(
         obscureText: true,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          icon: Icon(Icons.lock),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white70,
+            )
+          ),
+          suffixIcon: Icon(Icons.remove_red_eye),
           labelText: "Contraseña"
         ),
       )
@@ -143,8 +175,8 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
         height: 50.0,
         alignment: FractionalOffset.center,
         decoration: BoxDecoration(
-            color: Color.fromRGBO(230, 38, 50, 1.0),
-            borderRadius: BorderRadius.circular(20.0)),
+            color: Colors.black87,
+            borderRadius: BorderRadius.circular(10.0)),
         child: Text(loginButtonText,
             style: TextStyle(
                 color: Colors.white,
