@@ -47,6 +47,8 @@ class MediaVideoViewState extends State<MediaVideoView>{
     );
   }
 
+
+
   @override
   void dispose() {
     super.dispose();

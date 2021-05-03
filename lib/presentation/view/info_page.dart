@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:ic_nominas/presentation/controller/info_page_controller.dart';
 import 'package:ic_nominas/presentation/helpers/constants.dart';
+import 'package:ic_nominas/presentation/helpers/expandable_fab.dart';
 
 class InfoView extends View{
   InfoView({Key key, this.args}) : super(key: key);
@@ -21,7 +22,8 @@ class InfoViewState extends ViewState<InfoView, InfoViewController>{
   // TODO: implement view
   Widget get view => SafeArea(child: Scaffold(
     key: globalKey,
-    body: body
+    body: body,
+    floatingActionButton: floatingButton,
   ));
 
   Stack get body => Stack(
@@ -217,4 +219,21 @@ class InfoViewState extends ViewState<InfoView, InfoViewController>{
     }
   });
 
+  ExpandableFab get floatingButton => ExpandableFab(
+    distance: 112.0,
+    children: [
+      ActionButton(
+        onPressed: (){},
+        icon: const Icon(Icons.call),
+      ),
+      ActionButton(
+        onPressed: (){},
+        icon: const Icon(Icons.chat),
+      ),
+      ActionButton(
+        onPressed: (){},
+        icon: const Icon(Icons.mail_rounded),
+      )
+    ],
+  );
 }
