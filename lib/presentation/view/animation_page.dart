@@ -34,7 +34,7 @@ class AnimationPageView extends ViewState<AnimationPage, AnimationPageController
 
   Stack get body => Stack(
     children: <Widget>[
-      //background,
+      background,
       logo,
     ],
   );
@@ -66,16 +66,20 @@ class AnimationPageView extends ViewState<AnimationPage, AnimationPageController
       top: MediaQuery.of(context).size.height / 2 - 50,
       left: 0.0,
       right: 0.0,
-      child: Column(
-        children: <Widget>[
-          FadeTransition(
-            opacity: _animation,
-            child: Image(
-              image: AssetImage(Resources.logo),
-              width: 200,
-            ),
-          )
-        ],
+      child: Container(
+        width: 200,
+        height: 200,
+        child: Column(
+          children: <Widget>[
+            FadeTransition(
+              opacity: _animation,
+              child: Image(
+                image: AssetImage(Resources.logo),
+                width: 200,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

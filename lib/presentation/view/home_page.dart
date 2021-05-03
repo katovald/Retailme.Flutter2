@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:ic_nominas/domain/repositories/data_auth_repo.dart';
 import 'package:ic_nominas/presentation/controller/home_page_controller.dart';
@@ -34,33 +33,36 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
     height: MediaQuery.of(context).size.height,
     decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(
-                'assets/img/promo01_bg.jpeg'
-            ),
+            image: NetworkImage('http://retailmi.elbyte.com.mx/media/baileys/general/branch_bg.jpg'),
             fit: BoxFit.fill
         )
     ),
   );
 
-  Widget get camera => Positioned(
-    bottom: 50,
-    left: MediaQuery.of(context).size.width / 2 - 160,
-    child: GestureDetector(
-      child: Container(
-        width: 320.0,
-        height: 50.0,
-        alignment: FractionalOffset.center,
-        decoration: BoxDecoration(
-            color: Colors.black87,
-            borderRadius: BorderRadius.circular(10.0)),
-        child: Text("Escanear",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 0.4)
+  Widget get camera => ControlledWidgetBuilder<HomePageController>(builder: (context, controller) {
+    return Positioned(
+      bottom: 50,
+      left: MediaQuery.of(context).size.width / 2 - 160,
+      child: GestureDetector(
+        onTap: () {
+          controller.startScan();
+        },
+        child: Container(
+          width: 320.0,
+          height: 50.0,
+          alignment: FractionalOffset.center,
+          decoration: BoxDecoration(
+              color: Colors.black87,
+              borderRadius: BorderRadius.circular(10.0)),
+          child: Text("Escanear",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: 0.4)
+          ),
         ),
       ),
-    ),
-  );
+    );
+  });
 }

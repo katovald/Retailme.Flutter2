@@ -35,3 +35,24 @@ SnackBar _getGenericSnackbar(String text, bool isError){
 void showGenericSnackbar(BuildContext context, String text, {bool isError = false}) {
   ScaffoldMessenger.of(context).showSnackBar(_getGenericSnackbar(text, isError));
 }
+
+class ProductsArguments {
+  final String title;
+  final String imgPrincipal;
+  final String message;
+  final String bg;
+  final List<String> recetas;
+  final List<String> promos;
+  final List<String> media;
+  final String code;
+
+  ProductsArguments(this.title, this.imgPrincipal, this.message, this.bg, this.media, this.recetas, this.promos, this.code);
+}
+
+class MediaArguments {
+  final String title;
+  final String url;
+  final String description;
+
+  MediaArguments(this.title, this.url, this.description);
+}

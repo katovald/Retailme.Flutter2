@@ -1,17 +1,18 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:ic_nominas/aplication/usecases/auth_status_usecase.dart';
+import 'package:ic_nominas/aplication/usecases/mech_use_case.dart';
 
 class HomePagePresenter extends Presenter{
-  Function authStatusOnNext;
-  Function authStatusOnComplete;
+  Function getInteractions;
+  Function initMultimedia;
 
-  AuthStatusUseCase _authStatusUseCase;
+  MechanicalUseCase _authStatusUseCase;
 
   HomePagePresenter(authRepo) {
-    _authStatusUseCase = AuthStatusUseCase(authRepo);
+    _authStatusUseCase = MechanicalUseCase();
   }
 
-  void getStatus() => _authStatusUseCase.execute(_LogedObserver(this));
+  void getStatus() => _authStatusUseCase.execute(_MechanicalObserver(this));
 
   @override
   void dispose() {
@@ -19,27 +20,23 @@ class HomePagePresenter extends Presenter{
   }
 }
 
-class _LogedObserver implements Observer<bool>{
+class _MechanicalObserver implements Observer<bool>{
   HomePagePresenter _presenter;
 
-  _LogedObserver(this._presenter);
+  _MechanicalObserver(this._presenter);
 
   @override
   void onComplete() {
-    assert (_presenter.authStatusOnComplete != null);
-    _presenter.authStatusOnComplete();
+
   }
 
   @override
   void onError(e) {
-    assert (_presenter.authStatusOnNext != null);
-    _presenter.authStatusOnNext(false);
-    onComplete();
+
   }
 
   @override
   void onNext(isAuth) {
-    assert (_presenter.authStatusOnNext != null);
-    _presenter.authStatusOnNext(isAuth);
+
   }
 }

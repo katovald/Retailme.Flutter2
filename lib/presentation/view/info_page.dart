@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:ic_nominas/presentation/controller/info_page_controller.dart';
+import 'package:ic_nominas/presentation/helpers/constants.dart';
 
 class InfoView extends View{
-  InfoView({Key key, this.title}) : super(key: key);
+  InfoView({Key key, this.args}) : super(key: key);
 
-  final String title;
+  final ProductsArguments args;
 
   @override
   InfoViewState createState() => InfoViewState();
@@ -15,10 +16,6 @@ class InfoView extends View{
 
 class InfoViewState extends ViewState<InfoView, InfoViewController>{
   InfoViewState() : super(InfoViewController());
-
-  Item selectedUser;
-
-  Item selectedPromo;
 
   @override
   // TODO: implement view
@@ -30,184 +27,194 @@ class InfoViewState extends ViewState<InfoView, InfoViewController>{
   Stack get body => Stack(
     children: <Widget>[
       background,
-      ListView(
-        children: <Widget>[
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Image(
-                        image: AssetImage('assets/img/product.png'),
-                        width: 300.0,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 10.0,
-                          left: 10.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Text("Aqui ira la descripcion de los productos, el texto se adecuara al tamaño de la pantalla, dependeindo de la descripcion guardada en la base de datos",
-                          style: TextStyle(
-                              color: Colors.white70
-                          ),),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: DropdownButton<Item>(
-                        hint: Text('Opciones, menus, recetas, etc.'),
-                        style: TextStyle(color: Colors.white70),
-                        value: selectedUser,
-                        onChanged: (Item value) {
-                          setState(() {
-                            selectedUser = value;
-                          });
-                        },
-                        items: users.map((Item user) {
-                          return DropdownMenuItem<Item>(
-                            value: user,
-                              child: Row(
-                                children: <Widget>[
-                                  user.icon,
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    user.name,
-                                    style:  TextStyle(color: Colors.black),
-                                  ),
-                                ],
-                              )
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: DropdownButton<Item>(
-                        hint: Text('Promociones, regalos, etc'),
-                        style: TextStyle(color: Colors.white70),
-                        value: selectedPromo,
-                        onChanged: (Item value) {
-                          setState(() {
-                            selectedPromo = value;
-                          });
-                        },
-                        items: promos.map((Item user) {
-                          return DropdownMenuItem<Item>(
-                              value: user,
-                              child: Row(
-                                children: <Widget>[
-                                  user.icon,
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    user.name,
-                                    style:  TextStyle(color: Colors.black),
-                                  ),
-                                ],
-                              )
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              mediaButton,
-              SizedBox(height: 40.0),
-              promoButton,
-            ],
-          ),
-        ]
-      ),
+      productPresentation,
+      recetas,
+      promos,
+      media,
     ],
   );
 
   Container get background => Container(
-    color: Color.fromRGBO(0, 0, 0, 0.8),
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height,
+    decoration: BoxDecoration(
+        image: DecorationImage(
+            image: NetworkImage(widget.args.bg),
+            fit: BoxFit.fill
+        )
+    ),
   );
 
-  List<Item> users = <Item>[
-    const Item('Video',Icon(Icons.play_circle_fill,color:  const Color(0xFF167F67),)),
-    const Item('Galeria',Icon(Icons.image,color:  const Color(0xFF167F67),)),
-    const Item('Publicacion',Icon(Icons.menu_book,color:  const Color(0xFF167F67),)),
-    const Item('Compartir',Icon(Icons.share,color:  const Color(0xFF167F67),)),
-  ];
-
-  List<Item> promos = <Item>[
-    const Item('Regalo',Icon(Icons.card_giftcard,color:  const Color(0xFF167F67),)),
-    const Item('2x1',Icon(Icons.sports_motorsports,color:  const Color(0xFF167F67),)),
-    const Item('3x2',Icon(Icons.account_balance_wallet,color:  const Color(0xFF167F67),)),
-  ];
-
-  Widget get mediaButton => ControlledWidgetBuilder<InfoViewController>(builder: (context, controller) {
-    return GestureDetector(
-      onTap: () {
-        //controller.selectAction();
-      },
+  Positioned get productPresentation => Positioned(
+    top: 20.0,
+    left: MediaQuery.of(context).size.width / 2 - 200,
+    child: Center(
       child: Container(
-        width: 320.0,
-        height: 50.0,
-        alignment: FractionalOffset.center,
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(230, 38, 50, 1.0),
-            borderRadius: BorderRadius.circular(20.0)),
-        child: Text("Media",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height / 8,
+                  bottom: 10.0),
+              child: Container(
+                width: 200,
+                height: 400,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: Colors.black87,
+                    image: DecorationImage(
+                      image: NetworkImage(widget.args.imgPrincipal),
+                      fit: BoxFit.contain
+                    )
+                ),
+              ),
+            ),
+            Text(
+              widget.args.title,
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 32.0,
                 fontWeight: FontWeight.w300,
-                letterSpacing: 0.4)
+                letterSpacing: 2.0,
+              ),
+            )
+          ],
         ),
       ),
-    );
-  });
-
-  Widget get promoButton => ControlledWidgetBuilder<InfoViewController>(builder: (context, controller) {
-    return GestureDetector(
-      onTap: () {
-        //controller.selectPromo();
-      },
-      child: Container(
-        width: 320.0,
-        height: 50.0,
-        alignment: FractionalOffset.center,
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(230, 38, 50, 1.0),
-            borderRadius: BorderRadius.circular(20.0)),
-        child: Text("Promocion",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 0.4)
+    ),
+  );
+  
+  Widget get recetas => ControlledWidgetBuilder<InfoViewController>(builder: (context, controller) {
+    if(widget.args.recetas.length > 0){
+      return Positioned(
+        top: 10.0,
+        left: 10.0,
+        child: Container(
+          width: 200,
+          height: 200,
+          child: ListView.builder(itemBuilder: (BuildContext ctx, int index) {
+            return new GestureDetector(
+              onTap: () {
+                controller.presentVideo(widget.args.recetas[index]);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 180.0,
+                  height: 30.0,
+                  alignment: FractionalOffset.center,
+                  decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Text('Receta ' + (index + 1).toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w300,
+                          letterSpacing: 0.4)
+                  ),
+                ),
+              ),
+            );
+          },
+            itemCount: widget.args.recetas.length,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Container(
+        width: 1,
+        height: 1,
+      );
+    }
   });
 
-}
+  Widget get promos => ControlledWidgetBuilder<InfoViewController>(builder: (context, controller) {
+    if(widget.args.promos.length > 0){
+      return Positioned(
+        top: 10.0,
+        right: 10.0,
+        child: Container(
+          width: 200,
+          height: 200,
+          child: ListView.builder(itemBuilder: (BuildContext ctx, int index) {
+            return new GestureDetector(
+              onTap: () {
+                controller.presentVideo(widget.args.promos[index]);
+              },
+              child: Container(
+                width: 180.0,
+                height: 30.0,
+                alignment: FractionalOffset.center,
+                decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Text('Promo ' + index.toString(),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w300,
+                        letterSpacing: 0.4)
+                ),
+              ),
+            );
+          },
+            itemCount: widget.args.promos.length,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        width: 1,
+        height: 1,
+      );
+    }
+  });
 
-class Item {
-  const Item(this.name,this.icon);
-  final String name;
-  final Icon icon;
+  Widget get media => ControlledWidgetBuilder<InfoViewController>(builder: (context, controller) {
+    if(widget.args.media.length > 0){
+      return Positioned(
+        bottom: 10.0,
+        left: 10.0,
+        child: Container(
+          width: 200,
+          height: 200,
+          child: ListView.builder(itemBuilder: (BuildContext ctx, int index) {
+            return new GestureDetector(
+              onTap: () {
+                controller.presentVideo(widget.args.media[index]);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: 180.0,
+                  height: 30.0,
+                  alignment: FractionalOffset.center,
+                  decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Text('Video ' + (index + 1).toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w300,
+                          letterSpacing: 0.4)
+                  ),
+                ),
+              ),
+            );
+          },
+            itemCount: widget.args.media.length,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        width: 1,
+        height: 1,
+      );
+    }
+  });
+
 }

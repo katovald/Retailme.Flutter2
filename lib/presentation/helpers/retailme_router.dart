@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ic_nominas/presentation/view/info_page.dart';
+import 'package:ic_nominas/presentation/view/media_video_page.dart';
 
 import '../view/home_page.dart';
 import '../view/login_page.dart';
@@ -17,7 +18,9 @@ class RetRouter {
       case Pages.login:
         return _buildRoute(settings, LoginPage());
       case Pages.productInfo:
-        return _buildRoute(settings, InfoView());
+        return _buildRoute(settings, InfoView(args: settings.arguments));
+      case Pages.video:
+        return _buildRoute(settings, MediaVideoView(args: settings.arguments,));
     }
   }
 
