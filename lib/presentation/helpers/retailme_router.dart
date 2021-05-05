@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ic_nominas/presentation/view/data_form_view.dart';
 import 'package:ic_nominas/presentation/view/info_page.dart';
 import 'package:ic_nominas/presentation/view/media_video_page.dart';
 
@@ -21,6 +22,8 @@ class RetRouter {
         return _buildRoute(settings, InfoView(args: settings.arguments));
       case Pages.video:
         return _buildRoute(settings, MediaVideoView(args: settings.arguments,));
+      case Pages.dataform:
+        return _buildRoute(settings, DataFormPage());
     }
   }
 

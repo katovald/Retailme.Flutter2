@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'presentation/view/animation_page.dart';
+import 'package:ic_nominas/presentation/view/home_page.dart';
 
 import 'presentation/helpers/retailme_router.dart';
 
@@ -24,10 +24,10 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Color.fromRGBO(18, 168, 237, 1.0),
         accentColor: Colors.white70,
-        scaffoldBackgroundColor:  Color.fromRGBO(18, 168, 237, 1.0),
+        scaffoldBackgroundColor:  Colors.white70,
         fontFamily: 'San Francisco',
       ),
-      home: AnimationPage(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: _router.getRoute,
       navigatorObservers: [_router.routeObserver],

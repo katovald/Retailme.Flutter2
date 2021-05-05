@@ -116,7 +116,7 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
           child: FloatingActionButton(
             backgroundColor: Colors.black87,
             onPressed: _toggle,
-            child: const Icon(Icons.help_outline_rounded, color: Colors.white,),
+            child: const Icon(Icons.favorite_outline_sharp, color: Colors.white,),
           ),
         ),
       ),
