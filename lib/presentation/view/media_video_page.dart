@@ -39,11 +39,11 @@ class MediaVideoViewState extends State<MediaVideoView>{
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.close),
+            icon: const Icon(Icons.arrow_back),
           ),
           ActionButton(
             onPressed: (){
-              Navigator.of(context).pushNamed('/data');
+              showInformationDialog(context);
             },
             icon: const Icon(Icons.add),
           ),
@@ -75,7 +75,7 @@ class MediaVideoViewState extends State<MediaVideoView>{
                   ),
                   IconsButton(
                     onPressed: () {
-
+                      //TODO: QR code promo view
                     },
                     text: 'Ver',
                     iconData: Icons.qr_code,
@@ -96,6 +96,69 @@ class MediaVideoViewState extends State<MediaVideoView>{
   void dispose() {
     super.dispose();
     _controller.dispose();
+  }
+
+  Future<void> showInformationDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          bool isChecked = false;
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: GlobalKey(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "No puede ser vacio";
+                        },
+                        decoration:
+                        InputDecoration(hintText: "Correo"),
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "No puede ser vacio";
+                        },
+                        decoration:
+                        InputDecoration(hintText: "Edad"),
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "No puede ser vacio";
+                        },
+                        decoration:
+                        InputDecoration(hintText: "Telefono"),
+                      ),
+                    ],
+                  )),
+              title: Text('Tus datos son necesarios'),
+              actions: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                  width: 320.0,
+                  height: 50.0,
+                  alignment: FractionalOffset.center,
+                  decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(10.0)),
+                  child: Text('OK',
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w300,
+                    letterSpacing: 0.4)
+                    ),
+                  ),
+                ),
+              ],
+            );
+          });
+        });
   }
 
   FutureBuilder get videoPlayer =>  FutureBuilder(
