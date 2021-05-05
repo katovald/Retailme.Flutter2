@@ -29,7 +29,7 @@ class HomePageController extends Controller{
 
   void startScan() async {
     var options = ScanOptions(
-      useCamera: 1,
+      useCamera: 0,
       android: AndroidOptions(useAutoFocus: true)
     );
     BarcodeScanner.scan(options: options).then((value) {

@@ -48,13 +48,7 @@ class MediaVideoViewState extends State<MediaVideoView>{
             icon: const Icon(Icons.mail_rounded),
           ),
           ActionButton(
-            onPressed: () {
-
-            } ,
-            icon: const Icon(Icons.share),
-          ),
-          ActionButton(
-            onPressed: () => Dialogs.bottomMaterialDialog(
+            onPressed: () => Dialogs.materialDialog(
               titleStyle: TextStyle(color: Colors.black),
               color: Colors.white,
               msgStyle: TextStyle(color: Colors.black),
