@@ -33,7 +33,7 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
     height: MediaQuery.of(context).size.height,
     decoration: BoxDecoration(
         image: DecorationImage(
-            image: NetworkImage('http://retailmi.elbyte.com.mx/media/baileys/general/branch_bg.jpg'),
+            image: AssetImage('assets/img/branch_bg.jpeg'),
             fit: BoxFit.fill
         )
     ),

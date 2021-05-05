@@ -45,7 +45,7 @@ class MediaVideoViewState extends State<MediaVideoView>{
             onPressed: (){
               showInformationDialog(context);
             },
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.mail_rounded),
           ),
           ActionButton(
             onPressed: () {
