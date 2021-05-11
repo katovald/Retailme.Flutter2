@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ic_nominas/presentation/view/data_form_view.dart';
-import 'package:ic_nominas/presentation/view/info_page.dart';
-import 'package:ic_nominas/presentation/view/media_video_page.dart';
+import 'package:retailmi/presentation/view/data_form_view.dart';
+import 'package:retailmi/presentation/view/info_page.dart';
+import 'package:retailmi/presentation/view/media_video_page.dart';
+import 'package:retailmi/presentation/view/recipe_media_page.dart';
 
 import '../view/home_page.dart';
 import '../view/login_page.dart';
@@ -22,8 +23,10 @@ class RetRouter {
         return _buildRoute(settings, InfoView(args: settings.arguments));
       case Pages.video:
         return _buildRoute(settings, MediaVideoView(args: settings.arguments,));
-      case Pages.dataform:
+      case Pages.data:
         return _buildRoute(settings, DataFormPage());
+      case Pages.recipe:
+        return _buildRoute(settings, RecipeCarrousel());
     }
   }
 

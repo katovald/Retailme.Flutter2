@@ -5,5 +5,6 @@ class Pages {
   static const String clientInfo = '/client';
   static const String coupon = '/coupon';
   static const String video = '/video';
-  static const String dataform = '/data';
+  static const String data = '/data';
+  static const String recipe = '/recipe';
 }

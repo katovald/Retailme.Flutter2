@@ -74,21 +74,24 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
   }
 
   Widget _buildTapToCloseFab() {
-    return SizedBox(
-      width: 56.0,
-      height: 56.0,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          child: InkWell(
-            onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Theme.of(context).primaryColor,
+    return Visibility(
+      visible: _open,
+      child: SizedBox(
+        width: 56.0,
+        height: 56.0,
+        child: Center(
+          child: Material(
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            elevation: 4.0,
+            child: InkWell(
+              onTap: _toggle,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Icon(
+                  Icons.close,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ),
           ),
@@ -113,10 +116,11 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
           opacity: _open ? 0.0 : 1.0,
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
-          child: FloatingActionButton(
+          child: FloatingActionButton.extended(
             backgroundColor: Colors.black87,
             onPressed: _toggle,
-            child: const Icon(Icons.favorite_outline_sharp, color: Colors.white,),
+            icon: const Icon(Icons.favorite_outline_sharp, color: Colors.white,),
+            label: Text('Presiona aqui', style: TextStyle(color: Colors.white),),
           ),
         ),
       ),

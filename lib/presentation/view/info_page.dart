@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:ic_nominas/presentation/controller/info_page_controller.dart';
-import 'package:ic_nominas/presentation/helpers/constants.dart';
-import 'package:ic_nominas/presentation/helpers/expandable_fab.dart';
+import 'package:retailmi/presentation/controller/info_page_controller.dart';
+import 'package:retailmi/presentation/helpers/constants.dart';
+import 'package:retailmi/presentation/helpers/expandable_fab.dart';
 
 class InfoView extends View{
   InfoView({Key key, this.args}) : super(key: key);

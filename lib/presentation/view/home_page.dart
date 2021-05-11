@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:ic_nominas/domain/repositories/data_auth_repo.dart';
-import 'package:ic_nominas/presentation/controller/home_page_controller.dart';
+import 'package:retailmi/domain/repositories/data_auth_repo.dart';
+import 'package:retailmi/presentation/controller/home_page_controller.dart';
 
 class HomePage extends View{
   HomePage();
@@ -41,25 +41,21 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
 
   Widget get camera => ControlledWidgetBuilder<HomePageController>(builder: (context, controller) {
     return Positioned(
-      bottom: 50,
-      left: MediaQuery.of(context).size.width / 2 - 160,
+      bottom: MediaQuery.of(context).size.height / 30,
+      left: MediaQuery.of(context).size.width / 2 - MediaQuery.of(context).size.height / 8,
       child: GestureDetector(
         onTap: () {
           controller.startScan();
         },
         child: Container(
-          width: 320.0,
-          height: 50.0,
+          width: MediaQuery.of(context).size.height/4,
+          height: MediaQuery.of(context).size.height/4,
           alignment: FractionalOffset.center,
           decoration: BoxDecoration(
-              color: Colors.black87,
-              borderRadius: BorderRadius.circular(10.0)),
-          child: Text("Escanear",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w300,
-                  letterSpacing: 0.4)
+              borderRadius: BorderRadius.circular(10.0),
+            image: DecorationImage(
+              image: AssetImage('assets/img/botonRosa.png'),
+            )
           ),
         ),
       ),

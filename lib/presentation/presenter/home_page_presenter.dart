@@ -1,6 +1,5 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:ic_nominas/aplication/usecases/auth_status_usecase.dart';
-import 'package:ic_nominas/aplication/usecases/mech_use_case.dart';
+import 'package:retailmi/aplication/usecases/mech_use_case.dart';
 
 class HomePagePresenter extends Presenter{
   Function getInteractions;

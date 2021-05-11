@@ -1,8 +1,8 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:ic_nominas/presentation/helpers/constants.dart';
-import 'package:ic_nominas/presentation/presenter/home_page_presenter.dart';
+import 'package:retailmi/presentation/helpers/constants.dart';
+import 'package:retailmi/presentation/presenter/home_page_presenter.dart';
 
 class HomePageController extends Controller{
   bool isLoading;
@@ -29,7 +29,7 @@ class HomePageController extends Controller{
 
   void startScan() async {
     var options = ScanOptions(
-      useCamera: 0,
+      useCamera: 1,
       android: AndroidOptions(useAutoFocus: true)
     );
     BarcodeScanner.scan(options: options).then((value) {

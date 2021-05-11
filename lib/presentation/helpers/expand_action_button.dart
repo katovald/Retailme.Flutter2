@@ -27,7 +27,7 @@ class ExpandingActionButton extends StatelessWidget {
           right: 4.0 + offset.dx,
           bottom: 4.0 + offset.dy,
           child: Transform.rotate(
-            angle: (1.0 - progress.value) * pi / 2,
+            angle: (1.5 - progress.value) * pi / 2,
             child: child,
           ),
         );

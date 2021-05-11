@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ic_nominas/presentation/view/home_page.dart';
+import 'package:retailmi/presentation/view/home_page.dart';
 
 import 'presentation/helpers/retailme_router.dart';
 

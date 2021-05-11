@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:ic_nominas/domain/repositories/auth_repo.dart';
+import 'package:retailmi/domain/repositories/auth_repo.dart';
 
 class AuthStatusUseCase extends UseCase<bool, void>{
   AuthRepo _authRepo;
