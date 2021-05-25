@@ -1,14 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:retailmi/domain/models/recipe_model.dart';
 
-final List<String> imgList = [
-  'assets/img/fresa.jpeg',
-  'assets/img/chocolate.jpeg',
-  'assets/img/horchata.jpeg',
-  'assets/img/mango.jpeg',
-  'assets/img/matcha.jpeg',
-  'assets/img/piniacolada.jpeg'
+final List<Recipe> imgList = [
+  new Recipe(imgUrl: 'assets/img/fresa.jpeg', description: 'Baileys Shakeado con fresa', name: 'BAILEYS FRESA SHAKEADO'),
+  new Recipe(imgUrl: 'assets/img/chocolate.jpeg', description: 'Baileys Shakeado con chocolate', name: 'BAILEYS CHOCOLATE SHAKEADO'),
+  new Recipe(imgUrl: 'assets/img/horchata.jpeg', description: 'Baileys Shakeado con horchata', name: 'BAILEYS HORCHATA SHAKEADO'),
+  new Recipe(imgUrl: 'assets/img/mango.jpeg', description: 'Baileys Shakeado con mango', name: 'BAILEYS MANGO SHAKEADO'),
+  new Recipe(imgUrl: 'assets/img/matcha.jpeg', description: 'Baileys Shakeado con matcha', name: 'BAILEYS MATCHA SHAKEADO'),
+  new Recipe(imgUrl: 'assets/img/piniacolada.jpeg', description: 'Baileys Shakeado con piña colada', name: 'BAILEYS PIÑA COLADA SHAKEADO')
 ];
 
 final List<Widget> imageSliders = imgList.map((item) => Container(
@@ -18,7 +19,7 @@ final List<Widget> imageSliders = imgList.map((item) => Container(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
         child: Stack(
           children: <Widget>[
-            Image.asset(item, fit: BoxFit.cover, width: 1300.0),
+            Image.asset(item.imgUrl, fit: BoxFit.cover, width: 1300.0),
             Positioned(
               bottom: 0.0,
               left: 0.0,
@@ -36,7 +37,7 @@ final List<Widget> imageSliders = imgList.map((item) => Container(
                 ),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 child: Text(
-                  'Receta No. ${imgList.indexOf(item) + 1}',
+                  item.name,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -76,10 +77,12 @@ class RecipeCarrouselState extends State<RecipeCarrousel>
     ],
   );
 
-  Widget get pictureCarrousel => Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Column(children: <Widget>[
-        CarouselSlider(
+  Widget get pictureCarrousel => Container(
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height,
+    child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: CarouselSlider(
           options: CarouselOptions(
             autoPlay: false,
             aspectRatio: 1.9,
@@ -87,7 +90,7 @@ class RecipeCarrouselState extends State<RecipeCarrousel>
           ),
           items: imageSliders,
         ),
-      ],)
+    ),
   );
 
   Widget get backButton => Positioned(

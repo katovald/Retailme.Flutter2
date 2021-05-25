@@ -1,10 +1,17 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:retailmi/domain/models/product_model.dart';
 import 'package:retailmi/domain/repositories/data_auth_repo.dart';
 import 'package:retailmi/presentation/controller/home_page_controller.dart';
 
 class HomePage extends View{
   HomePage();
+
+  final List<Product> imgList = [
+    new Product(name: 'Baileys Churros 700 ml', code: '5011013935604', description: 'Botella de 700 ml de Baileys sabor churros, cooperacion con el moro', imgUrl: 'assets/img/churros.png'),
+    new Product(name: 'Baileys Original 700 ml', code: '5011013933785', description: 'Botella de 700 ml de Baileys sabor original.', imgUrl: 'assets/img/original.png')
+  ];
 
   @override
   HomePageState createState() => HomePageState();
@@ -14,8 +21,9 @@ class HomePage extends View{
 class HomePageState extends ViewState<HomePage, HomePageController>{
   HomePageState() : super(HomePageController(DataAuthRepo()));
 
+  CarouselController _controller = CarouselController();
+
   @override
-  // TODO: implement view
   Widget get view => Scaffold(
     key: globalKey,
     body: body,
@@ -24,25 +32,30 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
   Stack get body => Stack(
     children: <Widget>[
       background,
-      camera
+      camera,
+      pictureCarrousel
     ],
   );
 
-  Widget get background => Container(
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height,
-    decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/img/branch_bg.jpeg'),
-            fit: BoxFit.fill
-        )
+  Widget get background => Positioned(
+    left: 0,
+    top: 0,
+    child: Container(
+      width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 4,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/img/branch_bg.jpeg'),
+              fit: BoxFit.fitHeight
+          )
+      ),
     ),
   );
 
   Widget get camera => ControlledWidgetBuilder<HomePageController>(builder: (context, controller) {
     return Positioned(
-      bottom: MediaQuery.of(context).size.height / 30,
-      left: MediaQuery.of(context).size.width / 2 - MediaQuery.of(context).size.height / 8,
+      bottom: (MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 4) / 30,
+      left: (MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 4) / 2 - MediaQuery.of(context).size.height / 8,
       child: GestureDetector(
         onTap: () {
           controller.startScan();
@@ -61,4 +74,77 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
       ),
     );
   });
+
+  Widget get pictureCarrousel => Positioned(
+    right: 0,
+    child: ControlledWidgetBuilder<HomePageController>(builder: (context, controller) {
+      return Stack(
+        children: [
+          Container(
+          color: Color.fromRGBO(254, 232, 208, 0.9),
+          width: MediaQuery.of(context).size.width / 4,
+          height: MediaQuery.of(context).size.height,
+          child: CarouselSlider(
+            options: CarouselOptions(
+              autoPlay: false,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+            ),
+            carouselController: _controller,
+            items: imageButtonSliders,
+          ),
+        ),
+          Positioned(
+            bottom: 10,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () => _controller.previousPage(),
+              color: Colors.black,
+              iconSize: 50,
+            ),
+          ),
+          Positioned(
+            right: 0,
+            bottom: 10,
+            child: IconButton(
+              icon: Icon(Icons.arrow_forward_ios),
+              onPressed: () => _controller.nextPage(),
+              color: Colors.black,
+              iconSize: 50,
+            ),
+          ),
+        ],
+      );
+    }),
+  );
+
+  List<Widget> get imageButtonSliders => widget.imgList.map((item) => ControlledWidgetBuilder<HomePageController>(builder: (context, controller) {
+    return Container(
+      color: Colors.transparent,
+      child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          child: Stack(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  controller.selectProduct(item.code);
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.height / 4,
+                  height: MediaQuery.of(context).size.height,
+                  alignment: FractionalOffset.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      image: DecorationImage(
+                        image: AssetImage(item.imgUrl),
+                      )
+                  ),
+                ),
+              )
+            ],
+          )
+      ),
+    );
+  })).toList();
 }
+

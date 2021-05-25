@@ -36,16 +36,32 @@ class HomePageController extends Controller{
       print(value.rawContent);
       //TODO: armar dinamicamente la ruta, para que al escanear cualquier producto ya tenga la informacion correcta
       if(value.rawContent == '5011013935604'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta01.mp4', ''));
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
       }else if(value.rawContent == '86767210029'){
         Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
       }else if(value.rawContent == '5011013100118'){
         Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
       }else if(value.rawContent == '5011013933785'){
         Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
-      }else {
+      }else if(value.rawContent == '5011013100156'){
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+      } else {
 
       }
     });
+  }
+
+  void selectProduct(String value) {
+    if(value == '5011013935604'){
+      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
+    }else if(value == '86767210029'){
+      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+    }else if(value == '5011013100118'){
+      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+    }else if(value == '5011013933785'){
+      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+    }else {
+
+    }
   }
 }

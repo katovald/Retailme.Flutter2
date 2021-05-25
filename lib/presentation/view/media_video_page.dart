@@ -1,12 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:retailmi/presentation/controller/media_video_page_controller.dart';
 import 'package:retailmi/presentation/helpers/expandable_fab.dart';
 import 'package:retailmi/presentation/helpers/constants.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:retailmi/presentation/view/custom_dialog.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +21,7 @@ class MediaVideoView extends View {
 class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewController>{
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+  Timer _backTime;
 
   MediaVideoViewState() : super(MediaVideoViewController());
 
@@ -29,7 +29,15 @@ class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewContro
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(widget.args.url);
-    _initializeVideoPlayerFuture = _controller.initialize();
+    _initializeVideoPlayerFuture = _controller.initialize().then((value) =>
+    {
+      _controller.addListener(() {
+        if(!_controller.value.isPlaying && (_controller.value.duration >= _controller.value.position))
+          {
+            startTimer();
+          }
+      })
+    });
     _controller.setLooping(false);
   }
 
@@ -37,69 +45,6 @@ class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewContro
   void dispose() {
     super.dispose();
     _controller.dispose();
-  }
-
-  Future<void> showInformationDialog(BuildContext context) async {
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          bool isChecked = false;
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              content: Form(
-                  key: GlobalKey(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        validator: (value) {
-                          return value.isNotEmpty ? null : "No puede ser vacio";
-                        },
-                        decoration:
-                        InputDecoration(hintText: "Correo"),
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          return value.isNotEmpty ? null : "No puede ser vacio";
-                        },
-                        decoration:
-                        InputDecoration(hintText: "Edad"),
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          return value.isNotEmpty ? null : "No puede ser vacio";
-                        },
-                        decoration:
-                        InputDecoration(hintText: "Telefono"),
-                      ),
-                    ],
-                  )),
-              title: Text('Tus datos son necesarios'),
-              actions: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                  width: 320.0,
-                  height: 50.0,
-                  alignment: FractionalOffset.center,
-                  decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(10.0)),
-                  child: Text('OK',
-                    style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.4)
-                    ),
-                  ),
-                ),
-              ],
-            );
-          });
-        });
   }
 
   FutureBuilder get videoPlayer =>  FutureBuilder(
@@ -123,119 +68,31 @@ class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewContro
     floatingActionButton: ExpandableFab(
       distance: 140.0,
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
-            Navigator.of(context).popAndPushNamed('/recipe');
+            stopTimer();
+            Navigator.of(context).pushNamed('/recipe');
           },
-          child: Container(
-            width: 100.0,
-            height: 30.0,
-            alignment: FractionalOffset.center,
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Text("Recetas",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.4)
-            ),
-          ),
+          child: Image.asset('assets/img/Recetas.ico'),
         ),
-        GestureDetector(
-          onTap: () {
-            showInformationDialog(context);
-          },
-          child: Container(
-            width: 100.0,
-            height: 30.0,
-            alignment: FractionalOffset.center,
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Text("Datos",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.4)
-            ),
-          ),
-        ),
-        GestureDetector(
+        InkWell(
           onTap: () async {
+            stopTimer();
             await showDialog(
                 context: context,
-                builder: (_) => ImageDialog('assets/img/robotQR.png')
+                builder: (_) => ImageDialog('assets/img/promoQR.png')
             );
           },
-          child: Container(
-            width: 100.0,
-            height: 30.0,
-            alignment: FractionalOffset.center,
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Text("ChatBot",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.4)
-            ),
-          ),
+          child: Image.asset('assets/img/ChatBot.ico'),
         ),
-        GestureDetector(
-          onTap: () => Dialogs.materialDialog(
-            titleStyle: TextStyle(color: Colors.black),
-            color: Colors.white,
-            msgStyle: TextStyle(color: Colors.black),
-            msg: 'Por participar tienes la oportunidad de obtener promociones, solo escanea el QR',
-            title: 'Muchas gracias',
-            animation: 'assets/anim/cong_anim.json',
-            context: context,
-            actions: [
-              IconsButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                text: 'Cancelar',
-                iconData: Icons.close,
-                color: Colors.red,
-                textStyle: TextStyle(color: Colors.white),
-                iconColor: Colors.white,
-              ),
-              IconsButton(
-                onPressed: () async {
-                  await showDialog(
-                      context: context,
-                      builder: (_) => ImageDialog('assets/img/promoQR.png')
-                  );
-                },
-                text: 'Ver',
-                iconData: Icons.qr_code,
-                color: Colors.blue,
-                textStyle: TextStyle(color: Colors.white),
-                iconColor: Colors.white,
-              ),
-            ],
-          ),
-          child: Container(
-            width: 100.0,
-            height: 30.0,
-            alignment: FractionalOffset.center,
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Text("Promociones",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0.4)
-            ),
-          ),
+        InkWell(
+          onTap: () {
+            stopTimer();
+            showDialog(context: context, builder: (BuildContext context) {
+              return CustomMediaDialog(args: MediaArguments('', 'assets/img/backgroundPromo.png', ''));
+            });
+          },
+          child: Image.asset('assets/img/Promociones.ico'),
         ),
       ],
     ),
@@ -260,6 +117,19 @@ class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewContro
         backgroundColor: Colors.redAccent,
       ),
   );
+
+  void stopTimer(){
+    if(_backTime != null){
+      _backTime.cancel();
+      _backTime = null;
+    }
+  }
+
+  void startTimer(){
+    _backTime = Timer(Duration(seconds: 15), () {
+      Navigator.of(context).pop();
+    });
+  }
 }
 
 class ImageDialog extends StatelessWidget {

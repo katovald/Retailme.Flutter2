@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:retailmi/presentation/view/custom_dialog.dart';
 import 'package:retailmi/presentation/view/data_form_view.dart';
 import 'package:retailmi/presentation/view/info_page.dart';
 import 'package:retailmi/presentation/view/media_video_page.dart';
@@ -27,6 +28,8 @@ class RetRouter {
         return _buildRoute(settings, DataFormPage());
       case Pages.recipe:
         return _buildRoute(settings, RecipeCarrousel());
+      case Pages.mediaDialog:
+        return _buildRoute(settings, CustomMediaDialog(args: settings.arguments,));
     }
   }
 

@@ -7,4 +7,6 @@ class Pages {
   static const String video = '/video';
   static const String data = '/data';
   static const String recipe = '/recipe';
+  static const String catalog = '/catalog';
+  static const String mediaDialog = '/mediaDialog';
 }
