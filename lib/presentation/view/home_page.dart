@@ -1,17 +1,43 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:retailmi/domain/helpers/constants.dart';
 import 'package:retailmi/domain/models/product_model.dart';
 import 'package:retailmi/domain/repositories/data_auth_repo.dart';
 import 'package:retailmi/presentation/controller/home_page_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends View{
-  HomePage();
+  HomePage() {
+    getProducts();
+  }
 
-  final List<Product> imgList = [
-    new Product(name: 'Baileys Churros 700 ml', code: '5011013935604', description: 'Botella de 700 ml de Baileys sabor churros, cooperacion con el moro', imgUrl: 'assets/img/churros.png'),
-    new Product(name: 'Baileys Original 700 ml', code: '5011013933785', description: 'Botella de 700 ml de Baileys sabor original.', imgUrl: 'assets/img/original.png')
-  ];
+  Future<List<Product>> getProducts() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    Map<String, dynamic> json =
+    jsonDecode(pref.getString(Constants.sucursalInfo));
+    this.backgroundUrl = json['videoUrl'];
+    List<dynamic> prods = json['products'];
+    prods.forEach((product) {
+      Map<String, dynamic> productInfo = Map<String, dynamic>.from(product);
+      print(productInfo);
+      List<dynamic> multiInfo = product['multimedias'];
+      multiInfo.forEach((multim) {
+        Map<String, dynamic> multiI = Map<String, dynamic>.from(multim);
+        imgList.add(new Product(
+            name: productInfo['title'],
+            code: productInfo['barcode'],
+            description: productInfo['description'],
+            imgUrl: multiI['url']));
+      });
+    });
+  }
+
+  String backgroundUrl;
+
+  List<Product> imgList = [];
 
   @override
   HomePageState createState() => HomePageState();
@@ -19,7 +45,7 @@ class HomePage extends View{
 }
 
 class HomePageState extends ViewState<HomePage, HomePageController>{
-  HomePageState() : super(HomePageController(DataAuthRepo()));
+  HomePageState() : super(HomePageController());
 
   CarouselController _controller = CarouselController();
 
@@ -45,7 +71,7 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/img/branch_bg.jpeg'),
+              image: NetworkImage(widget.backgroundUrl),
               fit: BoxFit.fitHeight
           )
       ),
@@ -67,7 +93,7 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
             image: DecorationImage(
-              image: AssetImage('assets/img/botonRosa.png'),
+              image: AssetImage('assets/img/logo.jpeg'),
             )
           ),
         ),
@@ -136,7 +162,7 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                        image: AssetImage(item.imgUrl),
+                        image: NetworkImage(item.imgUrl),
                       )
                   ),
                 ),

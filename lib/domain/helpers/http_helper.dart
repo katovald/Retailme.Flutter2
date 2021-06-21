@@ -9,7 +9,7 @@ class HttpHelper {
     http.Response response;
     Map<String, dynamic> responseBody;
     try{
-      response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
+      response = await _invoke(Uri.parse(url), type, headers: headers, body: body, encoding: encoding);
     }catch(e){
       rethrow;
     }
@@ -22,7 +22,7 @@ class HttpHelper {
     List<dynamic> responseBody;
 
     try{
-      response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
+      response = await _invoke(Uri.parse(url), type, headers: headers, body: body, encoding: encoding);
     }on APIExceptions {
       rethrow;
     }on SocketException {

@@ -12,11 +12,12 @@ class RegisterDeviceUseCase extends CompletableUseCase<RegisterDeviceParams>{
   RegisterDeviceUseCase(this._authRepo);
 
   @override
-  Future<Stream<Sucursal>> buildUseCaseStream(RegisterDeviceParams params) async {
-    final StreamController<Sucursal> controller = StreamController();
+  Future<Stream<bool>> buildUseCaseStream(RegisterDeviceParams params) async {
+    final StreamController<bool> controller = StreamController();
     try{
       await _authRepo.register(sucursalId: params._idSucursal);
       await _authRepo.getBranchInfo();
+      controller.add(true);
       controller.close();
     }catch (e){
       controller.addError(e);

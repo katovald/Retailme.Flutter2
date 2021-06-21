@@ -18,7 +18,7 @@ class RegisterDevice extends View {
 class RegisterDeviceViewState extends ViewState<RegisterDevice, RegisterDevicePageController> {
   static const String clientId = 'Id de sucursal';
 
-  RegisterDeviceViewState() : super(RegisterDevicePageController(DataAuthRepo()));
+  RegisterDeviceViewState() : super(RegisterDevicePageController(new DataAuthRepo()));
 
   @override
   Widget get view {
@@ -121,25 +121,28 @@ class RegisterDeviceViewState extends ViewState<RegisterDevice, RegisterDevicePa
   // Fields and Buttons
 
   /// Email input field
-  Widget get sucursal => Container(
-    width: MediaQuery.of(context).size.width / 3,
-      child: TextField(
-        decoration: InputDecoration(
-          icon: Icon(Icons.account_circle),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white70,
-            )
+  Widget get sucursal => ControlledWidgetBuilder<RegisterDevicePageController>(builder: (context, controller) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 3,
+        child: TextField(
+          controller: controller.branchIdTextController,
+          decoration: InputDecoration(
+            icon: Icon(Icons.account_circle),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white70,
+              )
+            ),
+            labelText: "Id de sucursal",
           ),
-          labelText: "Id de sucursal",
-        ),
-      )
-  );
+        )
+    );
+  });
 
   Widget get loginButton => ControlledWidgetBuilder<RegisterDevicePageController>(builder: (context, controller) {
     return GestureDetector(
       onTap: () {
-        controller.register();
+        controller.regist();
       },
       child: Container(
         width: 320.0,

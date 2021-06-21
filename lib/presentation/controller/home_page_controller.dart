@@ -1,57 +1,72 @@
+import 'dart:convert';
+
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:retailmi/domain/helpers/constants.dart';
 import 'package:retailmi/presentation/helpers/constants.dart';
 import 'package:retailmi/presentation/presenter/home_page_presenter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePageController extends Controller{
+class HomePageController extends Controller {
   bool isLoading;
 
   HomePagePresenter _presenter;
 
-  HomePageController(authRepo) : _presenter = HomePagePresenter(authRepo) {
-    getAuthStatus();
-  }
+  HomePageController() : _presenter = HomePagePresenter();
 
   @override
-  void initListeners() {
+  void initListeners() {}
 
-  }
-
-  void onGetCode(String code){
+  void onGetCode(String code) {
     Navigator.of(getContext()).pushNamed('/product');
   }
 
   void getAuthStatus() async {
     isLoading = true;
-    Future.delayed(Duration(seconds: 3), _presenter.getStatus);
   }
 
   void startScan() async {
-    var options = ScanOptions(
-      useCamera: 1,
-      android: AndroidOptions(useAutoFocus: true)
-    );
+    var options =
+        ScanOptions(useCamera: 1, android: AndroidOptions(useAutoFocus: true));
     BarcodeScanner.scan(options: options).then((value) {
       print(value.rawContent);
       //TODO: armar dinamicamente la ruta, para que al escanear cualquier producto ya tenga la informacion correcta
-      if(value.rawContent == '5011013935604'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
+      /* if(value.rawContent == '5011013935604'){
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'churros_receta02.mp4', ''));
       }else if(value.rawContent == '86767210029'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
       }else if(value.rawContent == '5011013100118'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
       }else if(value.rawContent == '5011013933785'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
       }else if(value.rawContent == '5011013100156'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
+        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
       } else {
 
-      }
+      } */
+      getMedia().then((branchInfo) {
+        print(value);
+        branchInfo['products'].map((product) {
+          if (product['barcode'] == value.rawContent) {
+              product['multimedias'].map((multimedia) {
+                  if(multimedia['multimediaType'] == 1)
+                  Navigator.of(getContext()).pushNamed('/video',
+                  arguments: MediaArguments('', 'video/${product['url']}', ''));
+            });
+          }
+        });
+      });
     });
   }
 
+  Future<Map<String, dynamic>> getMedia() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return jsonDecode(prefs.getString(Constants.sucursalInfo));
+  }
+
   void selectProduct(String value) {
-    Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
+    Navigator.of(getContext()).pushNamed('/video',
+        arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
   }
 }

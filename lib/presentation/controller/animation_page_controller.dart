@@ -2,15 +2,17 @@ import 'package:android_multiple_identifier/android_multiple_identifier.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:retailmi/domain/repositories/data_auth_repo.dart';
 
 import '../presenter/animation_page_presenter.dart';
 
 class AnimationPageController extends Controller{
   bool isLoading;
   AnimationPagePresenter _presenter;
-  AnimationPageController(authRepo) : _presenter = AnimationPagePresenter(authRepo) {
+  AnimationPageController(DataAuthRepo authRepo) : _presenter = AnimationPagePresenter(authRepo) {
     getAuthStatus();
     handlePermissions();
+    authRepo.getWebToken();
   }
 
   @override

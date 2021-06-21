@@ -60,25 +60,6 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/img/logo.jpeg
-    - assets/img/branch_bg.jpeg
-    - assets/img/botonRosa.png
-    - assets/img/robotQR.png
-    - assets/img/original.png
-    - assets/img/churros.png
-    - assets/img/fresa.jpeg
-    - assets/img/chocolate.jpeg
-    - assets/img/horchata.jpeg
-    - assets/img/mango.jpeg
-    - assets/img/matcha.jpeg
-    - assets/img/piniacolada.jpeg
-    - assets/video/churros_receta02.mp4
-    - assets/video/original_video.mp4
-    - assets/anim/cong_anim.json
-    - assets/img/ChatBot.ico
-    - assets/img/Promociones.ico
-    - assets/img/Recetas.ico
-    - assets/img/backgroundPromo.png
-    - assets/img/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

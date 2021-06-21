@@ -9,19 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'auth_repo.dart';
 
 class DataAuthRepo implements AuthRepo {
-  static DataAuthRepo _instance;
-
-  factory DataAuthRepo() => _instance;
+  DataAuthRepo();
 
   @override
-  Future<void> getWebToken({String email, String password}) async {
+  Future<void> getWebToken() async {
     try {
-      Map<String, dynamic> body = await HttpHelper.invokeHttp(Constants.tokenKey, RequestType.post, body: {
-        "email":"otrebor.shm@gmail.com",
-        "password":"qwerty12",
-        "returnSecureToken":true
-      });
-
+      Map<String, dynamic> body = await HttpHelper.invokeHttp(Constants.identity, RequestType.post, body: jsonEncode({"email":"jokgrimally@gmail.com","password":"L3ch4t32","returnSecureToken":true}));
       _saveToken(token: body['idToken']);
     }catch(e){
       rethrow;
@@ -32,8 +25,9 @@ class DataAuthRepo implements AuthRepo {
   Future<bool> isRegister() async{
     try{
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      bool isAuth = preferences.getBool(Constants.isAuthenticatedKey);
-      return isAuth ?? false;
+      bool isAuth = preferences.getBool(Constants.isAuthenticatedKey) ?? false;
+      int branchId = preferences.getInt(Constants.sucursalId) ?? 0;
+      return isAuth && (branchId != 0);
     }catch(e){
       return false;
     }
@@ -52,14 +46,18 @@ class DataAuthRepo implements AuthRepo {
 
   @override
   Future<void> getBranchInfo() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String token = preferences.getString(Constants.tokenKey) ?? '';
-    int branchId = preferences.getInt(Constants.sucursalInfo) ?? 0;
-    Map<String, dynamic> body = await HttpHelper.invokeHttp(
-        '${Constants.getBranchById}$branchId', RequestType.post, headers: {
-      'Authorization': 'Bearer $token',
-    });
-    _saveBranchInfo(info: jsonEncode(body));
+    try{
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String token = preferences.getString(Constants.tokenKey) ?? '';
+      int branchId = preferences.getInt(Constants.sucursalInfo) ?? 0;
+      Map<String, dynamic> body = await HttpHelper.invokeHttp(
+          '${Constants.getBranchById}$branchId', RequestType.get, headers: {
+        'Authorization': 'Bearer $token',
+      });
+      _saveBranchInfo(info: jsonEncode(body));
+    }catch(e){
+
+    }
   }
 
   // save token in shared preferences
@@ -80,7 +78,7 @@ class DataAuthRepo implements AuthRepo {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([
         preferences.setBool(Constants.isAuthenticatedKey, true),
-        preferences.setInt(Constants.sucursalInfo, branch)
+        preferences.setInt(Constants.sucursalId, branch)
       ]);
     } catch(e){
       print(e);
