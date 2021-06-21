@@ -6,7 +6,7 @@ import 'package:retailmi/presentation/view/media_video_page.dart';
 import 'package:retailmi/presentation/view/recipe_media_page.dart';
 
 import '../view/home_page.dart';
-import '../view/login_page.dart';
+import '../view/register_page.dart';
 import 'pages.dart';
 
 class RetRouter {
@@ -19,7 +19,7 @@ class RetRouter {
       case Pages.home:
         return _buildRoute(settings, HomePage());
       case Pages.login:
-        return _buildRoute(settings, LoginPage());
+        return _buildRoute(settings, RegisterDevice());
       case Pages.productInfo:
         return _buildRoute(settings, InfoView(args: settings.arguments));
       case Pages.video:

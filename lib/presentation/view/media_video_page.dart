@@ -62,7 +62,6 @@ class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewContro
   );
 
   @override
-  // TODO: implement view
   Widget get view => Scaffold(
     body: body,
     floatingActionButton: ExpandableFab(
@@ -80,7 +79,7 @@ class MediaVideoViewState extends ViewState<MediaVideoView, MediaVideoViewContro
             stopTimer();
             await showDialog(
                 context: context,
-                builder: (_) => ImageDialog('assets/img/promoQR.png')
+                builder: (_) => ImageDialog('assets/img/robotQR.png')
             );
           },
           child: Image.asset('assets/img/ChatBot.ico'),

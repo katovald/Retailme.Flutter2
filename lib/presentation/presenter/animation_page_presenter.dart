@@ -1,21 +1,20 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-
-import '../../aplication/usecases/auth_status_usecase.dart';
+import 'package:retailmi/aplication/usecases/auth_status_usecase.dart';
 
 class AnimationPagePresenter extends Presenter{
   Function authStatusOnNext;
   Function authStatusOnComplete;
 
-  AuthStatusUseCase _authStatusUseCase;
+  RegisterStatusUseCase _registerStatusUseCase;
 
   AnimationPagePresenter(authRepo) {
-    _authStatusUseCase = AuthStatusUseCase(authRepo);
+    _registerStatusUseCase = RegisterStatusUseCase(authRepo);
   }
 
-  void getAuthStatus() => _authStatusUseCase.execute(_AnimationObserver(this));
+  void getAuthStatus() => _registerStatusUseCase.execute(_AnimationObserver(this));
 
   @override
-  void dispose() => _authStatusUseCase.dispose();
+  void dispose() => _registerStatusUseCase.dispose();
 }
 
 class _AnimationObserver implements Observer<bool>{

@@ -3,29 +3,22 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
 import '../../domain/repositories/data_auth_repo.dart';
-import '../controller/login_page_controller.dart';
+import '../controller/register_page_controller.dart';
 import '../helpers/constants.dart';
 
-class LoginPage extends View {
-  LoginPage({Key key, this.title}) : super(key: key);
+class RegisterDevice extends View {
+  RegisterDevice({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  LoginPageViewState createState() => LoginPageViewState();
+  RegisterDeviceViewState createState() => RegisterDeviceViewState();
 }
 
-class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
-  static const String emailPrompt = 'Correo';
-  static const String passwordPrompt = 'Password';
-  static const String loginButtonText = 'Inicio';
-  static const String forgotPassswordButtonText = '¿Olvidaste la contraseña?';
-  static const String registerButtonText = 'Registro';
+class RegisterDeviceViewState extends ViewState<RegisterDevice, RegisterDevicePageController> {
+  static const String clientId = 'Id de sucursal';
 
-  final FocusNode _emailFocus;
-  final FocusNode _passFocus;
-
-  LoginPageViewState() : _emailFocus = FocusNode(), _passFocus = FocusNode(), super(LoginPageController(DataAuthRepo()));
+  RegisterDeviceViewState() : super(RegisterDevicePageController(DataAuthRepo()));
 
   @override
   Widget get view {
@@ -91,11 +84,7 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: emailField,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: passwordField,
+                    child: sucursal,
                   ),
                   SizedBox(height: 40.0),
                   loginButton,
@@ -132,7 +121,7 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
   // Fields and Buttons
 
   /// Email input field
-  Widget get emailField => Container(
+  Widget get sucursal => Container(
     width: MediaQuery.of(context).size.width / 3,
       child: TextField(
         decoration: InputDecoration(
@@ -142,33 +131,15 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
               color: Colors.white70,
             )
           ),
-          labelText: "Supervisor",
+          labelText: "Id de sucursal",
         ),
       )
   );
 
-  /// Password input field
-  Widget get passwordField => Container(
-      width: MediaQuery.of(context).size.width / 3,
-      child: TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          icon: Icon(Icons.lock),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white70,
-            )
-          ),
-          suffixIcon: Icon(Icons.remove_red_eye),
-          labelText: "Contraseña"
-        ),
-      )
-  );
-
-  Widget get loginButton => ControlledWidgetBuilder<LoginPageController>(builder: (context, controller) {
+  Widget get loginButton => ControlledWidgetBuilder<RegisterDevicePageController>(builder: (context, controller) {
     return GestureDetector(
       onTap: () {
-        controller.login();
+        controller.register();
       },
       child: Container(
         width: 320.0,
@@ -177,7 +148,7 @@ class LoginPageViewState extends ViewState<LoginPage, LoginPageController> {
         decoration: BoxDecoration(
             color: Colors.black87,
             borderRadius: BorderRadius.circular(10.0)),
-        child: Text(loginButtonText,
+        child: Text("Registro",
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,

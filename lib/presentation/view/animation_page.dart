@@ -34,8 +34,8 @@ class AnimationPageView extends ViewState<AnimationPage, AnimationPageController
 
   Stack get body => Stack(
     children: <Widget>[
-      background,
       logo,
+      background
     ],
   );
 

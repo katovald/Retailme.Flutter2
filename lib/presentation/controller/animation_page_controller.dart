@@ -1,3 +1,4 @@
+import 'package:android_multiple_identifier/android_multiple_identifier.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -9,6 +10,7 @@ class AnimationPageController extends Controller{
   AnimationPagePresenter _presenter;
   AnimationPageController(authRepo) : _presenter = AnimationPagePresenter(authRepo) {
     getAuthStatus();
+    handlePermissions();
   }
 
   @override
@@ -38,5 +40,9 @@ class AnimationPageController extends Controller{
   void getAuthStatus() async {
     isLoading = true;
     Future.delayed(Duration(seconds: 3), _presenter.getAuthStatus);
+  }
+
+  void handlePermissions() async {
+    await AndroidMultipleIdentifier.requestPermission();
   }
 }

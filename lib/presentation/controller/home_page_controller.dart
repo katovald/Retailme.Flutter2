@@ -52,16 +52,6 @@ class HomePageController extends Controller{
   }
 
   void selectProduct(String value) {
-    if(value == '5011013935604'){
-      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
-    }else if(value == '86767210029'){
-      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
-    }else if(value == '5011013100118'){
-      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
-    }else if(value == '5011013933785'){
-      Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/original_video.mp4', ''));
-    }else {
-
-    }
+    Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
   }
 }
