@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UIConstants {
-  static const TextStyle fieldHintStyle = TextStyle(fontWeight: FontWeight.w300, color: Colors.black);
+  static const TextStyle fieldHintStyle =
+      TextStyle(fontWeight: FontWeight.w300, color: Colors.black);
   static const String appName = 'Retailmi';
   static const double progressBarOpacity = 0.6;
   static const Color progressBarColor = Colors.black;
@@ -9,17 +10,20 @@ class UIConstants {
 
 class Strings {
   static const String regFormIncomplete = 'Favor de llenar todos los campos';
-  static const String termsNotAccepted = 'Por favor acepte los terminos de servicio';
+  static const String termsNotAccepted =
+      'Por favor acepte los terminos de servicio';
   static const String registSuccess = 'Registro exitoso';
-  static const String forgotEmailSent = 'Le hemos enviado un correo para restablecer su contraseña';
-  static const String forgotPassInstructions = 'Introducir el correo asociado a la cuenta. Le enviaremos un email con instrucciones';
+  static const String forgotEmailSent =
+      'Le hemos enviado un correo para restablecer su contraseña';
+  static const String forgotPassInstructions =
+      'Introducir el correo asociado a la cuenta. Le enviaremos un email con instrucciones';
 }
 
 class Resources {
-  static const String logo = 'assets/img/logo.jpeg';
+  static const String logo = 'assets/img/logo.png';
 }
 
-SnackBar _getGenericSnackbar(String text, bool isError){
+SnackBar _getGenericSnackbar(String text, bool isError) {
   return SnackBar(
     content: Text(
       text,
@@ -32,21 +36,24 @@ SnackBar _getGenericSnackbar(String text, bool isError){
   );
 }
 
-void showGenericSnackbar(BuildContext context, String text, {bool isError = false}) {
-  ScaffoldMessenger.of(context).showSnackBar(_getGenericSnackbar(text, isError));
+void showGenericSnackbar(BuildContext context, String text,
+    {bool isError = false}) {
+  ScaffoldMessenger.of(context)
+      .showSnackBar(_getGenericSnackbar(text, isError));
 }
 
 class ProductsArguments {
-   String title;
-   String imgPrincipal;
-   String message;
-   String bg;
-   List<String> recetas;
-   List<String> promos;
-   List<String> media;
-   String code;
+  String title;
+  String imgPrincipal;
+  String message;
+  String bg;
+  List<String> recetas;
+  List<String> promos;
+  List<String> media;
+  String code;
 
-  ProductsArguments(this.title, this.imgPrincipal, this.message, this.bg, this.media, this.recetas, this.promos, this.code);
+  ProductsArguments(this.title, this.imgPrincipal, this.message, this.bg,
+      this.media, this.recetas, this.promos, this.code);
 }
 
 class MediaArguments {
@@ -54,5 +61,5 @@ class MediaArguments {
   String url;
   String description;
 
-  MediaArguments();
+  MediaArguments({this.title, this.url, this.description});
 }

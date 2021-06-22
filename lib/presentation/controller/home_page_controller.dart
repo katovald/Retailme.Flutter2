@@ -27,23 +27,49 @@ class HomePageController extends Controller {
     isLoading = true;
   }
 
-  void startScan() async {
+  void startScan(List<Product> products) async {
     var options =
-        ScanOptions(useCamera: 1, android: AndroidOptions(useAutoFocus: true));
+        ScanOptions(useCamera: -1, android: AndroidOptions(useAutoFocus: true));
     BarcodeScanner.scan(options: options).then((value) {
+      print("code product---------------------");
       print(value.rawContent);
-      getMedia().then((branchInfo) {
-        print(value);
-        branchInfo['products'].map((product) {
+      print("code product---------------------");
+      products.forEach((product) {
+        if (product.barcode == value.rawContent) {
+          print("-----------code selected----------");
+          print(product);
+          print("-----------code selected----------");
+          product.multimedias.forEach((multimedia) {
+            if (multimedia.multimediaType == 1) {
+              print("--------------------multimedia catched---------");
+              print(multimedia);
+              print("--------------------multimedia catched---------");
+              Navigator.of(getContext()).pushNamed('/video',
+                  arguments: new MediaArguments(
+                      title: multimedia.title,
+                      description: multimedia.description,
+                      url: multimedia.url));
+            }
+          });
+        }
+      });
+      /* getMedia().then((branchInfo) {
+        branchInfo['products'].forEach((product) {
           if (product['barcode'] == value.rawContent) {
-              product['multimedias'].map((multimedia) {
-                  if(multimedia['multimediaType'] == 1)
-                  Navigator.of(getContext()).pushNamed('/video',
-                  arguments: MediaArguments());
+            print("-----------code selected----------");
+            print(product);
+            print("-----------code selected----------");
+            product['multimedias'].forEach((multimedia) {
+              if (multimedia['multimediaType'] == 2)
+                print("--------------------multimedia catched---------");
+              print(multimedia);
+              print("--------------------multimedia catched---------");
+              Navigator.of(getContext())
+                  .pushNamed('/video', arguments:);
             });
           }
         });
-      });
+      }); */
     });
   }
 
@@ -54,15 +80,14 @@ class HomePageController extends Controller {
 
   void selectProduct(Product value) {
     MediaArguments videoArgs = MediaArguments();
-
+    print("selecto product---------------------");
     value.multimedias.forEach((element) {
-      if(element.multimediaType == 1){
+      if (element.multimediaType == 1) {
         videoArgs.title = element.title;
         videoArgs.description = element.description;
         videoArgs.url = element.url;
       }
     });
-    Navigator.of(getContext()).pushNamed('/video',
-        arguments: videoArgs);
+    Navigator.of(getContext()).pushNamed('/video', arguments: videoArgs);
   }
 }
