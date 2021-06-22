@@ -4,6 +4,7 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:retailmi/domain/helpers/constants.dart';
+import 'package:retailmi/domain/models/product_model.dart';
 import 'package:retailmi/presentation/helpers/constants.dart';
 import 'package:retailmi/presentation/presenter/home_page_presenter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,20 +32,6 @@ class HomePageController extends Controller {
         ScanOptions(useCamera: 1, android: AndroidOptions(useAutoFocus: true));
     BarcodeScanner.scan(options: options).then((value) {
       print(value.rawContent);
-      //TODO: armar dinamicamente la ruta, para que al escanear cualquier producto ya tenga la informacion correcta
-      /* if(value.rawContent == '5011013935604'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'churros_receta02.mp4', ''));
-      }else if(value.rawContent == '86767210029'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
-      }else if(value.rawContent == '5011013100118'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
-      }else if(value.rawContent == '5011013933785'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
-      }else if(value.rawContent == '5011013100156'){
-        Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', 'video/original_video.mp4', ''));
-      } else {
-
-      } */
       getMedia().then((branchInfo) {
         print(value);
         branchInfo['products'].map((product) {
@@ -65,8 +52,17 @@ class HomePageController extends Controller {
     return jsonDecode(prefs.getString(Constants.sucursalInfo));
   }
 
-  void selectProduct(String value) {
+  void selectProduct(Product value) {
+    MediaArguments videoArgs;
+
+    value.multimedias.forEach((element) {
+      if(element.multimediaType == 1){
+        videoArgs.title = element.title;
+        videoArgs.description = element.description;
+        videoArgs.url = element.url;
+      }
+    });
     Navigator.of(getContext()).pushNamed('/video',
-        arguments: MediaArguments('', 'assets/video/churros_receta02.mp4', ''));
+        arguments: videoArgs);
   }
 }

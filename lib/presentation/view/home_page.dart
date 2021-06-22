@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:retailmi/domain/helpers/constants.dart';
 import 'package:retailmi/domain/models/product_model.dart';
-import 'package:retailmi/domain/repositories/data_auth_repo.dart';
 import 'package:retailmi/presentation/controller/home_page_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,16 +21,31 @@ class HomePage extends View{
     List<dynamic> prods = json['products'];
     prods.forEach((product) {
       Map<String, dynamic> productInfo = Map<String, dynamic>.from(product);
-      print(productInfo);
+      Product newProduct = Product(
+          id: product['id'],
+          title: product['title'],
+          description: product['description'],
+          over18: product['over18'],
+          barcode: product['barcode']
+      );
+
       List<dynamic> multiInfo = product['multimedias'];
       multiInfo.forEach((multim) {
         Map<String, dynamic> multiI = Map<String, dynamic>.from(multim);
-        imgList.add(new Product(
-            name: productInfo['title'],
-            code: productInfo['barcode'],
-            description: productInfo['description'],
-            imgUrl: multiI['url']));
+        newProduct.multimedias.add(new Multimedia(
+            id: multiI['id'],
+            title: multiI['title'],
+            description: multiI['description'],
+          multimediaTypeValue: multiI['multimediaTypeValue'],
+          multimediaType: multiI['multimediaType'],
+          url: multiI['url'],
+          position: multiI['position'],
+          enable: multiI['enable']
+        )
+        );
       });
+
+      imgList.add(newProduct);
     });
   }
 
@@ -145,6 +159,12 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
   );
 
   List<Widget> get imageButtonSliders => widget.imgList.map((item) => ControlledWidgetBuilder<HomePageController>(builder: (context, controller) {
+    String url;
+    item.multimedias.forEach((element) {
+      if(element.multimediaType == 2 && element.description == "principal") {
+        url = element.url;
+      }
+    });
     return Container(
       color: Colors.transparent,
       child: ClipRRect(
@@ -153,7 +173,7 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  controller.selectProduct(item.code);
+                  controller.selectProduct(item);
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.height / 4,
@@ -162,7 +182,8 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                        image: NetworkImage(item.imgUrl),
+
+                        image: NetworkImage(url),
                       )
                   ),
                 ),
