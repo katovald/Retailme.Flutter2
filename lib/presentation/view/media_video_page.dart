@@ -95,8 +95,7 @@ class MediaVideoViewState
                     context: context,
                     builder: (BuildContext context) {
                       return CustomMediaDialog(
-                          args: MediaArguments(
-                              '', 'assets/img/backgroundPromo.png', ''));
+                          args: MediaArguments());
                     });
               },
               child: Image.asset('assets/img/Promociones.ico'),

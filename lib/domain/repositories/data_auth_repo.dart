@@ -49,7 +49,7 @@ class DataAuthRepo implements AuthRepo {
     try{
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String token = preferences.getString(Constants.tokenKey) ?? '';
-      int branchId = preferences.getInt(Constants.sucursalInfo) ?? 0;
+      int branchId = preferences.getInt(Constants.sucursalId) ?? 0;
       Map<String, dynamic> body = await HttpHelper.invokeHttp(
           '${Constants.getBranchById}$branchId', RequestType.get, headers: {
         'Authorization': 'Bearer $token',

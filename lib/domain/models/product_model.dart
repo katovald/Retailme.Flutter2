@@ -19,7 +19,7 @@ class Multimedia {
   String title;
   String description;
   String multimediaTypeValue;
-  String multimediaType;
+  int multimediaType;
   String url;
   int position;
   bool enable;

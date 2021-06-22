@@ -39,7 +39,7 @@ class HomePageController extends Controller {
               product['multimedias'].map((multimedia) {
                   if(multimedia['multimediaType'] == 1)
                   Navigator.of(getContext()).pushNamed('/video',
-                  arguments: MediaArguments('', 'video/${product['url']}', ''));
+                  arguments: MediaArguments());
             });
           }
         });
@@ -53,7 +53,7 @@ class HomePageController extends Controller {
   }
 
   void selectProduct(Product value) {
-    MediaArguments videoArgs;
+    MediaArguments videoArgs = MediaArguments();
 
     value.multimedias.forEach((element) {
       if(element.multimediaType == 1){

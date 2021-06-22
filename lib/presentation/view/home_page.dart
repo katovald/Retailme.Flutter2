@@ -182,7 +182,6 @@ class HomePageState extends ViewState<HomePage, HomePageController>{
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-
                         image: NetworkImage(url),
                       )
                   ),

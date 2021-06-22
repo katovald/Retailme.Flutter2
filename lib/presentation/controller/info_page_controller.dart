@@ -10,6 +10,6 @@ class InfoViewController extends Controller {
 
   void presentVideo(String media)
   {
-    Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments('', media, ''));
+    Navigator.of(getContext()).pushNamed('/video', arguments: MediaArguments());
   }
 }

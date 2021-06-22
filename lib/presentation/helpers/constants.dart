@@ -54,5 +54,5 @@ class MediaArguments {
   String url;
   String description;
 
-  MediaArguments(this.title, this.url, this.description);
+  MediaArguments();
 }
